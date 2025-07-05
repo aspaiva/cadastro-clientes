@@ -24,7 +24,7 @@ function showMenu() {
             rl.close();
             console.log('Program terminated.');
             process.exit(0); // Exit the program
-        }index.js
+        }
         else if (number === 1) {
             console.log('You selected Option 1');
         } else if (number === 2) {
