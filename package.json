@@ -1,0 +1,16 @@
+{
+  "name": "cadastro-clientes",
+  "version": "1.0.0",
+  "description": "Excercídio do curso de revisão de NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "curso",
+    "nodejs",
+    "javascript"
+  ],
+  "author": "aspaiva@gmail.com",
+  "license": "MIT"
+}
