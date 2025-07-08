@@ -134,9 +134,26 @@ async function showMenu() {
     //return exitFlag; // Return the exit flag to control the loop
 }
 
-// do { 
-//     exitFlag = await showMenu();
-// } while (exitFlag !== true);
+async function login() {
+    const password = '1234';
+    const tries = 3; // Number of attempts allowed
+    let attempts = 0;   
 
-showMenu();
-// db.getClients(); // Ensure clients are loaded at the start
+    while (attempts < tries) {
+        const inputPassword = await rl.question('Enter password: ');
+        if (inputPassword === password) {
+            console.log('Login successful!');
+            showMenu();
+        } else {
+            console.log(`Incorrect password. You have ${tries - attempts - 1} attempts left.`);
+        }   
+        attempts++;
+        if (attempts >= tries) {
+            console.log('Too many failed attempts. Exiting...');
+            process.exit(1); // Exit the program after too many failed attempts
+        }   
+    }
+
+}   
+
+login();
