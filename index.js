@@ -50,12 +50,55 @@ async function startRegistration() {
     console.log(`Cliente ${name} cadastrado com sucesso!`);
 }
 
+async function updateClient() {
+    console.clear();
+    const aClients = db.getClients(); // Fetching clients from the db module
+    if (aClients.length === 0) {
+        console.log('Nenhum cliente cadastrado para atualizar.');
+        return;
+    }
+
+    const id = parseInt(await rl.question('Informe o ID do cliente a ser atualizado: '), 10);
+    const client = db.getClientById(id);
+    if (!client) {
+        console.log(`Cliente com ID ${id} não encontrado.`);
+        return;
+    }
+
+    console.log(`Atualizando cliente: ${client.name}`);
+    const newName = await rl.question(`Informe o novo nome (atual: ${client.name}): `) || client.name;
+    const newAddress = await rl.question(`Informe o novo endereço (atual: ${client.address}): `) || client.address;   
+    db.updateClient(id, { name: newName, address: newAddress });
+    console.log(`Cliente ${id} atualizado com sucesso!`);
+}
+
+async function deleteClient() {
+    console.clear();
+    const id = parseInt(await rl.question('Informe o ID do cliente a ser excluído: '), 10);
+    const client = db.getClientById(id);
+    if (!client) {
+        console.log(`Cliente com ID ${id} não encontrado.`);
+        return;
+    }
+
+    const confirmation = await rl.question(`Tem certeza que deseja excluir o cliente ${client.name}? (s/n): `);
+    if (confirmation.toLowerCase() === 's') {
+        if (db.deleteClient(id)) {
+            console.log(`Cliente ${client.name} excluído com sucesso!`);
+        }
+        else {
+            console.log(`Erro ao excluir o cliente ${client.name}.`);
+        }
+    }
+}
+
 async function showMenu() {
     console.clear();
     console.log('Menu (async version of readline):');
     console.log('1. Listar clientes');
     console.log('2. Cadastrar cliente');
-    console.log('3. reservado para futuro uso');
+    console.log('3. Atualizar cliente');
+    console.log('4. Excluir cliente');
     console.log('0. finalizar');
 
     const theAnswer = await rl.question('Informe a opção: ');
@@ -79,7 +122,9 @@ async function showMenu() {
     } else if (number === 2) {
         await startRegistration();
     } else if (number === 3) {
-        console.log('You selected Option 3');
+        await updateClient();
+    } else if (number === 4) {
+        await deleteClient();
     } else {
         console.log('Invalid option. Please try again.');
     }
