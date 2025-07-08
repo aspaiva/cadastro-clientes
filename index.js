@@ -94,5 +94,4 @@ async function showMenu() {
 // } while (exitFlag !== true);
 
 showMenu();
-
-
+// db.getClients(); // Ensure clients are loaded at the start
