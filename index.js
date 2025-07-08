@@ -94,17 +94,30 @@ async function deleteClient() {
 
 async function searchClient() {
     console.clear();
-    const name = await rl.question('Informe o nome do cliente a ser pesquisado: ');
+    const textSearch = await rl.question('Informe o nome do cliente a ser pesquisado: ');
+    
     const aClients = db.getClients(); // Fetching clients from the db module
-    const foundClients = aClients.filter(client => client.name.toLowerCase().includes(name.toLowerCase()));
+    const foundClients = aClients.filter(client => client.name.toLowerCase().includes(textSearch.toLowerCase()));
     if (foundClients.length === 0) {
-        console.log(`Nenhum cliente encontrado com o nome "${name}".`);
+        console.log(`Nenhum cliente encontrado com o nome "${textSearch}".`);
     } else {
-        console.log('Clientes encontrados:');
+        console.log('Nomes encontrados:');
         foundClients.forEach(client => {
             console.log(`ID: ${client.id}, Nome: ${client.name}, Endereço: ${client.address}`);
         });
     }
+    console.log('\nPesquisando por endereços...');
+
+    const foundAddress = aClients.filter(client => client.address.toLowerCase().includes(textSearch.toLowerCase()));
+    if (foundAddress.length === 0) {
+        console.log(`Nenhum endereço encontrado com o texto "${textSearch}".`);
+    } else {
+        console.log('Endereços encontrados:');
+        foundAddress.forEach(client => {
+            console.log(`ID: ${client.id}, Nome: ${client.name}, Endereço: ${client.address}`);
+        });
+    }
+    console.log('\nPesquisa concluída.');
 }
 
 async function showMenu() {
