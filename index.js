@@ -92,6 +92,21 @@ async function deleteClient() {
     }
 }
 
+async function searchClient() {
+    console.clear();
+    const name = await rl.question('Informe o nome do cliente a ser pesquisado: ');
+    const aClients = db.getClients(); // Fetching clients from the db module
+    const foundClients = aClients.filter(client => client.name.toLowerCase().includes(name.toLowerCase()));
+    if (foundClients.length === 0) {
+        console.log(`Nenhum cliente encontrado com o nome "${name}".`);
+    } else {
+        console.log('Clientes encontrados:');
+        foundClients.forEach(client => {
+            console.log(`ID: ${client.id}, Nome: ${client.name}, Endereço: ${client.address}`);
+        });
+    }
+}
+
 async function showMenu() {
     console.clear();
     console.log('Menu (async version of readline):');
@@ -99,6 +114,7 @@ async function showMenu() {
     console.log('2. Cadastrar cliente');
     console.log('3. Atualizar cliente');
     console.log('4. Excluir cliente');
+    console.log('5. Pesquisar cliente');
     console.log('0. finalizar');
 
     const theAnswer = await rl.question('Informe a opção: ');
@@ -125,7 +141,10 @@ async function showMenu() {
         await updateClient();
     } else if (number === 4) {
         await deleteClient();
-    } else {
+    } else if (number === 5) {
+        await searchClient();
+    }
+    else {
         console.log('Invalid option. Please try again.');
     }
 
